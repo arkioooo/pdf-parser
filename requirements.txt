@@ -1,0 +1,8 @@
+streamlit            # Web app framework
+pandas               # Data manipulation
+numpy                # Numerical computations
+PyMuPDF              # `fitz` PDF parser
+python-dotenv        # Environment-variable management
+requests             # HTTP requests
+fuzzywuzzy           # Fuzzy string matching
+python-Levenshtein   # (Optional) speeds up fuzzywuzzy; auto-installed if available
