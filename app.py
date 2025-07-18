@@ -13,7 +13,7 @@ poppler_bin = os.getenv('poppler_bin')
 
 banks = [
     'Canara Bank', 'Axis Bank', 'SBI', 'Yes Bank (MSME)', 'ICICI Bank', 'PNB',
-    'City Union Bank', 'IDBI', 'Federal Bank', 'Indian Bank'
+    'City Union Bank', 'IDBI', 'Federal Bank', 'Indian Bank', 'Central Bank'
 ]
 selected_bank = st.selectbox("Select a bank", banks)
 
@@ -28,6 +28,7 @@ bank_scripts = {
     'IDBI': 'scripts.script_idbi',
     'Federal Bank': 'scripts.script_federal',
     'Indian Bank': 'scripts.script_indianbank',
+    'Central Bank' : 'scripts.script_centralbank'
 }
 
 def save_uploaded_file(uploadedfile, save_dir):
@@ -53,7 +54,6 @@ if uploaded_file:
                     if selected_bank:
                         module_name = bank_scripts.get(selected_bank)
                         if module_name:
-                            # Dynamically import the required script
                             module = __import__(module_name, fromlist=[''])
                             result = module.run(pdf_path, poppler_bin)
                             if result is not None:
