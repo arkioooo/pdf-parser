@@ -35,37 +35,37 @@ def extract_all_tables(pdf_path):
     result_df = result_df.dropna(how='all')  # drop empty rows
     return result_df
 
-def extract_info(df):
-    keywords = ['account holders name', 'account number', 'opening balance', 'closing balance']
-    acc_name, acc_no, opening_bal, closing_bal = None, None, 0, 0
+# def extract_info(df):
+#     keywords = ['account holders name', 'account number', 'opening balance', 'closing balance']
+#     acc_name, acc_no, opening_bal, closing_bal = None, None, 0, 0
     
-    for kw in keywords:
-        # Find rows where the first column contains the keyword (case-insensitive)
-        match = df.iloc[:, 0].str.lower().str.contains(kw, na=False)
+#     for kw in keywords:
+#         # Find rows where the first column contains the keyword (case-insensitive)
+#         match = df.iloc[:, 0].str.lower().str.contains(kw, na=False)
         
-        if match.any():
-            matched_row = df[match].iloc[0]
-            value = matched_row.iloc[1]  # Get the adjacent cell in the second column
+#         if match.any():
+#             matched_row = df[match].iloc[0]
+#             value = matched_row.iloc[1]  # Get the adjacent cell in the second column
             
-            # Remove possible currency symbol and commas for balance
-            if kw in ['opening balance', 'closing balance']:
-                # Clean and convert to numeric
-                value = str(value).replace('Rs.', '').replace(',', '').strip()
-                try:
-                    value = float(value)
-                except:
-                    value = 0
+#             # Remove possible currency symbol and commas for balance
+#             if kw in ['opening balance', 'closing balance']:
+#                 # Clean and convert to numeric
+#                 value = str(value).replace('Rs.', '').replace(',', '').strip()
+#                 try:
+#                     value = float(value)
+#                 except:
+#                     value = 0
             
-            if kw == 'account holders name':
-                acc_name = value
-            elif kw == 'account number':
-                acc_no = value
-            elif kw == 'opening balance':
-                opening_bal = value
-            elif kw == 'closing balance':
-                closing_bal = value
+#             if kw == 'account holders name':
+#                 acc_name = value
+#             elif kw == 'account number':
+#                 acc_no = value
+#             elif kw == 'opening balance':
+#                 opening_bal = value
+#             elif kw == 'closing balance':
+#                 closing_bal = value
     
-    return acc_name, acc_no, opening_bal, closing_bal
+#     return acc_name, acc_no, opening_bal, closing_bal
 
 
 def extract_transactions(df):
@@ -140,7 +140,7 @@ def calculate_metrics(df):
         print("No debit/credit rows found")
         pass
 
-    return total_credit, total_debit
+    return total_credit, total_debit, opening_bal, closing_bal
     # print("Total credit :", total_credit)
     # print("Total debit :", total_debit)
     # print("Opening balance :", opening_bal)
@@ -159,9 +159,9 @@ def run(pdf_path, poppler_bin):
     raw_table = extract_all_tables(pdf_path)
     if raw_table is None:
         return None, (0,0,0,0)
-    acc_name, acc_no, opening_bal, closing_bal = extract_info(raw_table)
+    # acc_name, acc_no, opening_bal, closing_bal = extract_info(raw_table)
     txn_df = extract_transactions(raw_table)
     txn_df = clean_repeated_headers(txn_df)
     std_df = standardize(txn_df)
-    total_credit, total_debit = calculate_metrics(std_df)
+    total_credit, total_debit, opening_bal, closing_bal = calculate_metrics(std_df)
     return std_df, (total_credit, total_debit, opening_bal, closing_bal)

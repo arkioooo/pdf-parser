@@ -13,7 +13,7 @@ poppler_bin = os.getenv('poppler_bin')
 
 banks = [
     'Canara Bank', 'Axis Bank', 'SBI', 'Yes Bank (MSME)', 'ICICI Bank', 'PNB',
-    'City Union Bank', 'IDBI', 'Federal Bank', 'Indian Bank', 'Central Bank'
+    'City Union Bank', 'IDBI', 'Federal Bank', 'Indian Bank', 'Central Bank', 'HDFC Bank'
 ]
 selected_bank = st.selectbox("Select a bank", banks)
 
@@ -28,7 +28,8 @@ bank_scripts = {
     'IDBI': 'scripts.script_idbi',
     'Federal Bank': 'scripts.script_federal',
     'Indian Bank': 'scripts.script_indianbank',
-    'Central Bank' : 'scripts.script_centralbank'
+    'Central Bank' : 'scripts.script_centralbank',
+    'HDFC Bank' : 'scripts.script_hdfc'
 }
 
 def save_uploaded_file(uploadedfile, save_dir):
